@@ -19,4 +19,4 @@ class InvestmentForm(forms.ModelForm):
 class StockForm(forms.ModelForm):
     class Meta:
         model = Stock
-        fields = ('customer', 'symbol', 'name', 'shares', 'purchase_price', 'purchase_date',)
+        fields = ('customer', 'symbol', 'name', 'shares', 'purchase_price', 'Current_price', 'purchase_date',)
