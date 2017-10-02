@@ -5,6 +5,10 @@ from django.shortcuts import redirect
 from django.contrib.auth.decorators import login_required
 from .temp import *
 from django.db.models import Sum
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from .serializers import CustomerSerializer
 
 
 # Create your views here.
@@ -161,8 +165,35 @@ def portfolio(request,pk):
     customers = Customer.objects.filter(created_date__lte=timezone.now())
     investments =Investment.objects.filter(customer=pk)
     stocks = Stock.objects.filter(customer=pk)
+    sum_recent_value = Investment.objects.filter(customer=pk).aggregate(Sum('recent_value'))
     sum_acquired_value = Investment.objects.filter(customer=pk).aggregate(Sum('acquired_value'))
+
+
+    Portfolio_Current_Investments = Investment.objects.all().aggregate(Sum('recent_value'))
+    Portfolio_Initial_Investments= Investment.objects.all().aggregate(Sum('acquired_value'))
+
+
+    print(sum_acquired_value, sum_recent_value)
+
+    sum_purchased = 0
+    sum_current = 0
+    for stock in stocks:
+        sum_purchased += stock.shares * stock.purchase_price
+        sum_current += stock.shares * stock.Current_price
+
+    print('sumval:', sum_acquired_value)
     return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,
                                                         'stocks': stocks,
-                                                        'sum_acquired_value': sum_acquired_value,})
+                                                        'sum_acquired_value': sum_acquired_value,
+                                                        'sum_recent_value' : sum_recent_value,
+                                                        'sum_purchased': sum_purchased,
+                                                        'sum_current': sum_current,'Portfolio_Initial_Investments':Portfolio_Initial_Investments,
+                                                        'Portfolio_Current_Investments':Portfolio_Current_Investments,})
+# List at the end of the views.py
+# Lists all customers
+class CustomerList(APIView):
+    def get(self,request):
+        customers_json = Customer.objects.all()
+        serializer = CustomerSerializer(customers_json, many=True)
+        return Response(serializer.data)
 

@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
 from yahoo_finance import Share
+from yahoo_finance import Share
+
 
 class Customer(models.Model):
     name = models.CharField(max_length=50)
@@ -58,6 +60,7 @@ class Stock(models.Model):
     name = models.CharField(max_length=50)
     shares = models.DecimalField (max_digits=10, decimal_places=1)
     purchase_price = models.DecimalField(max_digits=10, decimal_places=2)
+    Current_price = models.DecimalField(max_digits=10, decimal_places=2)
     purchase_date = models.DateField(default=timezone.now, blank=True, null=True)
 
     def created(self):
