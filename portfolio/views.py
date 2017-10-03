@@ -12,6 +12,7 @@ from .serializers import CustomerSerializer
 
 
 # Create your views here.
+@login_required
 def home(request):
     return render(request, 'portfolio/home.html',
                   {'portfolio': home})
