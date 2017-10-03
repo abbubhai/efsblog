@@ -173,14 +173,12 @@ def portfolio(request,pk):
     Portfolio_Current_Investments = Investment.objects.all().aggregate(Sum('recent_value'))
     Portfolio_Initial_Investments= Investment.objects.all().aggregate(Sum('acquired_value'))
 
-
-    print(sum_acquired_value, sum_recent_value)
-
     sum_purchased = 0
     sum_current = 0
     for stock in stocks:
         sum_purchased += stock.shares * stock.purchase_price
-        sum_current += stock.shares * stock.Current_price
+        sum_current += float(stock.shares) * stock.current_stock_price()
+
 
     print('sumval:', sum_acquired_value)
     return render(request, 'portfolio/portfolio.html', {'customers': customers, 'investments': investments,

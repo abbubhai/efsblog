@@ -79,11 +79,12 @@
                     <td>{{ stock.name }}</td>
                     <td>{{ stock.shares }}</td>
                     <td>{{ stock.purchase_price }}</td>
-                    <td>{{ stock.shares|mul:stock.purchase_price }}</td>
-                    <td>{{ stock.Current_price }}</td>
-                    <td>{{ stock.shares|mul:stock.Current_price }}</td>
+
+                    {% with numerator=stock.shares|mul:stock.current_stock_price denominator=stock.shares|mul:stock.purchase_price %}
+                    <td>{{ denominator }}</td>
+                    <td>{{ stock.current_stock_price }}</td>
+                    <td>{{ numerator }}</td>
                     <td>
-                    {% with numerator=stock.shares|mul:stock.Current_price denominator=stock.shares|mul:stock.purchase_price %}
                         <li>{{numerator|sub:denominator }}</li>
                         {% endwith %}
 
