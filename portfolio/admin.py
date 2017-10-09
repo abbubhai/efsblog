@@ -20,7 +20,6 @@ class StockList(admin.ModelAdmin):
     search_fields = ('customer','symbol', 'name')
     ordering = ['customer']
 
-
 admin.site.register(Customer, CustomerList)
 admin.site.register(Investment, InvestmentList)
 admin.site.register(Stock, StockList)

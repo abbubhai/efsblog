@@ -175,6 +175,7 @@ def portfolio(request,pk):
 
     sum_purchased = 0
     sum_current = 0
+
     for stock in stocks:
         sum_purchased += stock.shares * stock.purchase_price
         sum_current += float(stock.shares) * stock.current_stock_price()

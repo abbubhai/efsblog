@@ -76,10 +76,18 @@ class Stock(models.Model):
         symbol_f = self.symbol
         data = Share(symbol_f)
         share_value = (data.get_open())
-        return float(share_value)
+        if share_value:
+            return float(share_value)
+        else:
+            return 0.0
 
     def current_stock_value(self):
         symbol_f = self.symbol
         data = Share(symbol_f)
         share_value = (data.get_open())
-        return float(share_value) * float(self.shares)
+        if share_value:
+            return float(share_value) * float(self.shares)
+        else:
+            return 0.0
+
+

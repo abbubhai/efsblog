@@ -20,3 +20,4 @@ class StockForm(forms.ModelForm):
     class Meta:
         model = Stock
         fields = ('customer', 'symbol', 'name', 'shares', 'purchase_price', 'purchase_date',)
+
